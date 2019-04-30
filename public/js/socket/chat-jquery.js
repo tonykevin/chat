@@ -14,11 +14,10 @@ function renderUsers (users) {
   for (let i = 0; i < users.length; i++) {
     html += `
       <li>
-        <a href="javascript:void(0)">
+        <a href="javascript:void(0)" data-id=${users[i].id}>
           <img
             alt="user-img"
             class="img-circle"
-            data-id=${users[i].id}
             src="assets/images/users/1.jpg"
           >
           <span>
@@ -32,3 +31,9 @@ function renderUsers (users) {
 
   divUsers.html(html)
 }
+
+// Listeners
+divUsers.on('click', 'a', ({ currentTarget }) => {
+  let id = $(currentTarget).data('id')
+  console.log(id)
+})
