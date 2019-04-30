@@ -11,13 +11,15 @@ class Users {
   }
 
   getUser (id) {
-    let user = this.all.filter(person => person.id === id)[0]
+    let user = this.all.filter(user => user.id === id)[0]
 
     return user
   }
 
-  getUserByThread () {
-    throw new Error('You must implement the getUserByThread() method')
+  getUserByRoom (room) {
+    let usersInRoom = this.all.filter(user => user.room === room)
+
+    return usersInRoom
   }
 
   deleteUser (id) {

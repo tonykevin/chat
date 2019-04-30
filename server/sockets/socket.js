@@ -6,7 +6,6 @@ const users = new Users()
 
 io.on('connection', client => {
   client.on('joinChat', (data, callback) => {
-    console.log(data)
     if (!data.name || !data.room) {
       return callback({
         err: true,
@@ -16,27 +15,31 @@ io.on('connection', client => {
 
     client.join(data.room)
 
-    let userList = users.addUser(client.id, data.name, data.room)
+    users.addUser(client.id, data.name, data.room)
 
-    client.broadcast.emit('userList', users.all)
-    callback(userList)
+    client.broadcast.to(data.room).emit(
+      'userList',
+      users.getUserByRoom(data.room)
+    )
+
+    callback(users.getUserByRoom(data.room))
   })
 
   client.on('createMessage', (data) => {
     let user = users.getUser(client.id)
     let message = createMessage(user.name, data.message)
 
-    client.broadcast.emit('createMessage', message)
+    client.broadcast.to(user.room).emit('createMessage', message)
   })
 
   client.on('disconnect', () => {
     let deleteUser = users.deleteUser(client.id)
 
-    client.broadcast.emit('createMessage', createMessage(
+    client.broadcast.to(deleteUser.room).emit('createMessage', createMessage(
       'Administrador',
       `${deleteUser.name} salió`
     ))
-    client.broadcast.emit('userList', users.all)
+    client.broadcast.to(deleteUser.room).emit('userList', users.getUserByRoom(deleteUser.room))
   })
 
   client.on('privateMessage', data => {
