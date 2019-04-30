@@ -1,6 +1,6 @@
 const socket = io()
 
-const params = new URLSearchParams(window.location.search)
+var params = new URLSearchParams(window.location.search)
 
 if (!params.has('name') || !params.has('room')) {
   window.location = 'index.html'
@@ -16,7 +16,7 @@ socket.on('connect', () => {
   console.log('Connected to the server')
 
   socket.emit('joinChat', user, (res) => {
-    console.log('Usuarios conectados',res)
+    renderUsers(res)
   })
 })
 
@@ -29,7 +29,7 @@ socket.on('createMessage', message => {
 })
 
 socket.on('userList', userList => {
-  console.log(userList)
+  renderUsers(userList)
 })
 
 socket.on('privateMessage', (message) => {
