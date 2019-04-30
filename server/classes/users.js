@@ -1,16 +1,17 @@
 class Users {
   constructor () {
-    this.all = new Map()
+    this.people = []
   }
 
   addUser (id, name) {
-    this.all.set(id, name)
+    let user = { id, name }
+    this.people.push(user)
 
-    return this.all
+    return this.people
   }
 
   getUser (id) {
-    let user = this.all.get(id)
+    let user = this.people.filter(person => person.id === id)[0]
 
     return user
   }
@@ -21,9 +22,13 @@ class Users {
 
   deleteUser (id) {
     let deletedUser = this.getUser(id)
-    this.users = this.all.delete(id)
+    this.people = this.people.filter(user => user.id !== id)
 
     return deletedUser
+  }
+
+  get people () {
+    return this.people
   }
 }
 
