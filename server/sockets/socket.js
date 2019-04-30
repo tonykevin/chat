@@ -6,13 +6,17 @@ const users = new Users()
 
 io.on('connection', client => {
   client.on('joinChat', (data, callback) => {
-    if (!data.name) {
+    console.log(data)
+    if (!data.name || !data.room) {
       return callback({
         err: true,
-        message: 'El nombre es necesario.'
+        message: 'El nombre/sala es necesario.'
       })
     }
-    let userList = users.addUser(client.id, data.name)
+
+    client.join(data.room)
+
+    let userList = users.addUser(client.id, data.name, data.room)
 
     client.broadcast.emit('userList', users.all)
     callback(userList)

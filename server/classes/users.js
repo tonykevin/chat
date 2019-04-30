@@ -3,8 +3,8 @@ class Users {
     this.all = []
   }
 
-  addUser (id, name) {
-    let user = { id, name }
+  addUser (id, name, room) {
+    let user = { id, name, room }
     this.all.push(user)
 
     return this.all
