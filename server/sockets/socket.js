@@ -12,6 +12,18 @@ io.on('connection', client => {
       })
     }
     let userList = users.addUser(client.id, data.name)
+
+    client.broadcast.emit('userList', users.all)
     callback(userList)
+  })
+
+  client.on('disconnect', () => {
+    let deleteUser = users.deleteUser(client.id)
+
+    client.broadcast.emit('createMessage', {
+      user: 'Administrador',
+      message: `${deleteUser.name} abandonó el chat.`
+    })
+    client.broadcast.emit('userList', users.all)
   })
 })
