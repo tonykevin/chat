@@ -1,17 +1,17 @@
 class Users {
   constructor () {
-    this.people = []
+    this.all = []
   }
 
   addUser (id, name) {
     let user = { id, name }
-    this.people.push(user)
+    this.all.push(user)
 
-    return this.people
+    return this.all
   }
 
   getUser (id) {
-    let user = this.people.filter(person => person.id === id)[0]
+    let user = this.all.filter(person => person.id === id)[0]
 
     return user
   }
@@ -22,13 +22,9 @@ class Users {
 
   deleteUser (id) {
     let deletedUser = this.getUser(id)
-    this.people = this.people.filter(user => user.id !== id)
+    this.all = this.all.filter(user => user.id !== id)
 
     return deletedUser
-  }
-
-  get people () {
-    return this.people
   }
 }
 

@@ -1,18 +1,17 @@
 const { io } = require('../')
+const { Users } = require('../classes')
+
+const users = new Users()
 
 io.on('connection', client => {
-  console.log('Usuario conectado')
-
-  client.emit('sendMessage', {
-    user: 'Admin',
-    message: 'Bienvenido!'
-  })
-
-  client.on('disconnect', () => {
-    console.log('Usuario desconectado')
-  })
-
-  client.on('sendMessage', (data) => {
-    client.broadcast.emit('sendMessage', data)
+  client.on('joinChat', (data, callback) => {
+    if (!data.name) {
+      return callback({
+        err: true,
+        message: 'El nombre es necesario.'
+      })
+    }
+    let userList = users.addUser(client.id, data.name)
+    callback(userList)
   })
 })
