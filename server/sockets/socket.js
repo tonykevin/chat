@@ -34,4 +34,12 @@ io.on('connection', client => {
     ))
     client.broadcast.emit('userList', users.all)
   })
+
+  client.on('privateMessage', data => {
+    let user = users.getUser(client.id)
+    client.broadcast.to(data.to).emit('privateMessage', createMessage(
+      user.name,
+      data.message
+    ))
+  })
 })

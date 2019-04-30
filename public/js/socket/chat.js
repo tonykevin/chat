@@ -30,3 +30,7 @@ socket.on('createMessage', message => {
 socket.on('userList', userList => {
   console.log(userList)
 })
+
+socket.on('privateMessage', (message) => {
+  console.log('Mensaje privado:', message)
+})
