@@ -4,7 +4,7 @@ const params = new URLSearchParams(window.location.search)
 
 if (!params.has('name') || !params.has('room')) {
   window.location = 'index.html'
-  throw new Error('El nombre es necesario y sala son necesarios')
+  throw new Error('El nombre y sala son necesarios')
 }
 
 let user = {
@@ -16,7 +16,7 @@ socket.on('connect', () => {
   console.log('Connected to the server')
 
   socket.emit('joinChat', user, (res) => {
-    console.log(res)
+    console.log('Usuarios conectados',res)
   })
 })
 
