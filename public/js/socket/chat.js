@@ -26,6 +26,7 @@ socket.on('disconnect', () => {
 
 socket.on('createMessage', message => {
   renderMessage(message, false)
+  scrollBottom()
 })
 
 socket.on('userList', userList => {

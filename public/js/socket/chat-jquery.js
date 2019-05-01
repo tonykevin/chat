@@ -79,6 +79,22 @@ function renderMessage (message, me) {
   divChatBox.append(html)
 }
 
+function scrollBottom () {
+  // selectors
+  let newMessage = divChatBox.children('li:last-child')
+
+  // heights
+  let clientHeight = divChatBox.prop('clientHeight')
+  let scrollTop = divChatBox.prop('scrollTop')
+  let scrollHeight = divChatBox.prop('scrollHeight')
+  let newMessageHeight = newMessage.innerHeight()
+  let lastMessageHeight = newMessage.prev().innerHeight() || 0
+
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    divChatBox.scrollTop(scrollHeight)
+  }
+}
+
 // Listeners
 divUsers.on('click', 'a', ({ currentTarget }) => {
   let id = $(currentTarget).data('id')
@@ -97,5 +113,6 @@ sendForm.on('submit', (e) => {
   }, (message) => {
     txtMessage.val('').focus()
     renderMessage(message, true)
+    scrollBottom()
   })
 })
