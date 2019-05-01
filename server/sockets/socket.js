@@ -22,6 +22,11 @@ io.on('connection', client => {
       users.getUserByRoom(data.room)
     )
 
+    client.broadcast.to(data.room).emit(
+      'createMessage',
+      createMessage('Administrador', `${ data.name } se unió`)
+    )
+
     callback(users.getUserByRoom(data.room))
   })
 

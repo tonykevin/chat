@@ -35,17 +35,47 @@ function renderUsers (users) {
   divUsers.html(html)
 }
 
-function renderMessage (message) {
-  let html = `
-    <li class="animated fadeIn">
-      <div class="chat-img"><img src="assets/images/users/1.jpg" alt="user" /></div>
-      <div class="chat-content">
-        <h5>${message.name}</h5>
-        <div class="box bg-light-info">${message.message}</div>
-      </div>
-      <div class="chat-time">10:56 am</div>
-    </li>
+function renderMessage (message, me) {
+  let html = ''
+  const date = new Date(message.date)
+  const hour = `${date.getHours()}:${date.getMinutes()}`
+  let userImage = `
+    <div class="chat-img">
+      <img src="assets/images/users/1.jpg" alt="user" />
+    </div>
   `
+
+  let adminClass = 'info'
+
+  if (message.name === 'Administrador') {
+    adminClass = 'danger'
+    userImage = ''
+  }
+
+  if (me) {
+    html = `
+      <li class="reverse animated fadeIn">
+        <div class="chat-content">
+          <h5>${message.name}</h5>
+          <div class="box bg-light-inverse">${message.message}</div>
+        </div>
+        <div class="chat-img"><img src="assets/images/users/5.jpg" alt="user" /></div>
+        <div class="chat-time">${hour}</div>
+      </li>
+    `
+  } else {
+    html = `
+      <li class="animated fadeIn">
+        ${userImage}
+        <div class="chat-content">
+          <h5>${message.name}</h5>
+          <div class="box bg-light-${adminClass}">${message.message}</div>
+        </div>
+        <div class="chat-time">${hour}</div>
+      </li>
+    `
+  }
+
   divChatBox.append(html)
 }
 
@@ -66,6 +96,6 @@ sendForm.on('submit', (e) => {
     message: txtMessage.val()
   }, (message) => {
     txtMessage.val('').focus()
-    renderMessage(message)
+    renderMessage(message, true)
   })
 })

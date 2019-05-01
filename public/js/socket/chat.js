@@ -25,7 +25,7 @@ socket.on('disconnect', () => {
 })
 
 socket.on('createMessage', message => {
-  renderMessage(message)
+  renderMessage(message, false)
 })
 
 socket.on('userList', userList => {
